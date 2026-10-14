@@ -1425,7 +1425,15 @@ char *vpu_to_sub_port(unsigned char port_id, int sid, char rw)
 	struct vpu_sub_port *port;
 	int i, j;
 
-	desc = dmc_mon ? dmc_mon->vpu_sub : (aml_db ? aml_db->vpu_sub : NULL);
+	desc = NULL;
+#if IS_ENABLED(CONFIG_AMLOGIC_DMC_MONITOR)
+	if (dmc_mon)
+		desc = dmc_mon->vpu_sub;
+#endif
+#if IS_ENABLED(CONFIG_AMLOGIC_DDR_BANDWIDTH)
+	if (!desc && aml_db)
+		desc = aml_db->vpu_sub;
+#endif
 	if (!desc)
 		return NULL;
 
