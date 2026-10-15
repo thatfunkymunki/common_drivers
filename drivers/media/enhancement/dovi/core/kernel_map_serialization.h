@@ -1,0 +1,12 @@
+/* Native kernel-state streams. */
+#ifndef DOVI_KERNEL_MAP_SERIALIZATION_H
+#define DOVI_KERNEL_MAP_SERIALIZATION_H
+
+/* Packed little-endian kernel-map streams accept unaligned byte storage. */
+/* The stream has 0x15d0 bytes and includes the indirectly owned output map.
+ * Source and destination require full, distinct backing; no capacity is read.
+ * Loading preserves native dimensions, pitches and selected input type/depth
+ * fields, and restores output dimensions from the primary-input dimensions. */
+unsigned int dovi_DumpKsBinBuf(const void *source, void *output);
+unsigned int dovi_LoadKsBinBuf(void *output, const void *source);
+#endif
